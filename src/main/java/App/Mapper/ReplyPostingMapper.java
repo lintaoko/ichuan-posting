@@ -10,19 +10,20 @@ import java.util.Date;
 import java.util.List;
 
 public interface ReplyPostingMapper {
+
     //查询自己的回复贴
     @Select("select * from reply_posting where ReplyUserId=#{ReplyUserId}")
     List<ReplyPosting> queryReplyPostingByReplyUserId(@Param("ReplyUserId")Integer replyUserId);
     //查询主题帖的回复贴
     @Select("select * from reply_posting where MainPostingId=#{MainPostingId}")
     List<ReplyPosting> queryReplyPostingByMainPostingId(@Param("MainPostingId")Integer mainPostingId);
-
+    //查询主题帖中某人的回复贴(只看楼主)
+    @Select("select * from reply_posting where MainPostingId=#{MainPostingId} and  ReplyUserId=#{ReplyUserId}")
+    List<ReplyPosting> queryReplyPostingByMainPostingIdAndReplyUserId(@Param("MainPostingId")Integer mainPostingId,@Param("ReplyUserId")Integer replyUserId);
     //回复主题帖
     @Insert("insert into reply_posting(MainPostingId,ReplyTime,ReplyUserId,ReplyContent,ReplyImg,Replier)values(#{MainPostingId},#{ReplyTime},#{ReplyUserId},#{ReplyContent},#{ReplyImg},#{Replier})")
     Integer replyPostingInsert(@Param("MainPostingId")Integer mainPostingId, @Param("ReplyTime")Date replyTime,@Param("ReplyUserId")Integer replyUserId,@Param("ReplyContent") String replyContent,@Param("ReplyImg")String replyImg,@Param("Replier")String Replier);
-
     //删除回复
-    @Delete("delete reply_posting where ReplyPostingId=#{ReplyPostingId}")
+    @Delete("delete from reply_posting where ReplyPostingId=#{ReplyPostingId}")
     Integer replyPostingDeleteByReplyPostingId(@Param("ReplyPostingId") Integer replyPostingId);
-
 }
