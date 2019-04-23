@@ -1,16 +1,12 @@
 package App.Mapper;
-
 import App.Domain.ReplyPosting;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-
 import java.util.Date;
 import java.util.List;
-
 public interface ReplyPostingMapper {
-
     //查询自己的回复贴
     @Select("select * from reply_posting where ReplyUserId=#{ReplyUserId}")
     List<ReplyPosting> queryReplyPostingByReplyUserId(@Param("ReplyUserId")Integer replyUserId);
